@@ -126,48 +126,63 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </div>
 
 <!-- Second Grid -->
-<!-- <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-container">
     <h5>Πιθανές μολύνσεις</h5>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
       <tr>
-        <th> Κωδικός πελάτη </th>
-        <th> Χώρος που επισκεύθηκε </th>
-        <th> Από </th>
-        <th> Έως </th>
+        <th> Κωδικός πελάτη</th>
+        <th> Όνομα</th>
+        <th> Επώνυμο</th>
       </tr>
-      <tr>
-        <td>United States</td>
-        <td>65%</td>
-      </tr>
-      <tr>
-        <td>UK</td>
-        <td>15.7%</td>
-      </tr>
-      <tr>
-        <td>Russia</td>
-        <td>5.6%</td>
-      </tr>
-      <tr>
-        <td>Spain</td>
-        <td>2.1%</td>
-      </tr>
-      <tr>
-        <td>India</td>
-        <td>1.9%</td>
-      </tr>
-      <tr>
-        <td>France</td>
-        <td>1.5%</td>
-      </tr>
+
+      <?php
+      if (isset($_GET['bracelet_UID'])) {
+
+          $bracelet_UID = $_GET['bracelet_UID'];
+
+          include "sql_connector.php";
+
+          $sql = "SELECT bracelet_UID, first_name, last_name
+          from Client
+          where bracelet_UID in
+          (select Other.bracelet_UID
+          from (SELECT bracelet_UID, place_ID, enter_timestamp, TIMESTAMPADD(HOUR,1,exit_timestamp) as up_to FROM Accessed WHERE bracelet_UID =".strval($bracelet_UID).") as ILL, Accessed as Other
+          where Other.place_ID = ILL.place_ID and (
+              (ILL.enter_timestamp <= Other.exit_timestamp and Other.enter_timestamp <= ILL.up_to)
+          ) and ILL.bracelet_UID <> Other.bracelet_UID)";
+
+          $result = $conn->query($sql);
+
+          //echo "query made<br>";
+
+          if (mysqli_num_rows($result) > 0) {
+            while($row = $result->fetch_assoc()) {
+
+              $bracelet_UID = $row["bracelet_UID"];
+              $first_name = $row["first_name"];
+              $last_name = $row["last_name"];
+
+
+            echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s</td></tr>", $bracelet_UID, $first_name, $last_name);
+            //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
+            }
+          } else {
+            echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s</td></tr>", "-", "-", "-");
+          }
+          $conn->close();
+      }else{
+          echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s</td></tr>", "-", "-", "-");
+      }
+      ?>
+
     </table><br>
     <button class="w3-button w3-dark-grey">Περισσότερα  <i class="fa fa-arrow-right"></i></button>
   </div>
+  <br> <br> <br>
+  </div>
 </div>
-<br> <br> <br> <br>
-</div> -->
 
 
 <!-- Footer -->

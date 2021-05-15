@@ -24,3 +24,56 @@ from (SELECT bracelet_UID, place_ID, enter_timestamp, TIMESTAMPADD(HOUR,1,exit_t
 where Other.place_ID = ILL.place_ID and (
     (ILL.enter_timestamp <= Other.exit_timestamp and Other.enter_timestamp <= ILL.up_to)
 ) and ILL.bracelet_UID <> Other.bracelet_UID);
+
+-- Ερώτημα 11
+
+select description_position as description, count(place_ID) as access_count
+from (Client as C left outer join (Place as P natural join NotRoom) natural join Accessed as A on (P.ID = A.place_ID))
+
+where
+
+exit_timestamp >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)
+exit_timestamp >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)
+
+AND
+
+C.age BETWEEN 20 AND 40
+C.age BETWEEN 41 AND 60
+C.age >= 61
+
+group by place_ID
+ORDER BY 'access_count' DESC
+
+
+select S.description as description, count(U.service_ID) as service_use_count
+from Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID))
+where
+
+U.timestamp_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)
+U.timestamp_of_use >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)
+
+AND
+
+C.age BETWEEN 20 AND 40
+C.age BETWEEN 41 AND 60
+C.age >= 61
+
+group by U.service_ID
+ORDER BY 'service_use_count' DESC
+
+select S.description as description, count(distinct(U.bracelet_UID)) as client_count
+from (Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID)))
+
+where
+
+U.timestapm_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)
+U.timestamp_of_use >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)
+
+AND
+
+C.age BETWEEN 20 AND 40
+C.age BETWEEN 41 AND 60
+C.age >= 61
+
+group by S.service_ID
+ORDER BY 'client_count' DESC

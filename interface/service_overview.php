@@ -52,28 +52,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 
     <div class="w3-container w3-red">
-      <h2> Αναζήτηση υπηρεσιών </h2>
+      <h2> Αναζήτηση χρήσεων υπηρεσιών </h2>
     </div>
     <div class="w3-container w3-white w3-padding-16 w3-round">
-      <form action="/action_page.php" target="_blank">
+      <form method="GET">
         <div class="w3-row-padding" style="margin:0 -16px;">
           <div class="w3-half w3-margin-bottom">
             <label><i class="fa fa-calendar-o"></i> Από</label>
-            <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY" name="CheckIn" style="text-align: center" required>
+            <input class="w3-input w3-border" type="datetime-local" name="from_time" style="text-align: center">
           </div>
           <div class="w3-half">
             <label><i class="fa fa-calendar-o"></i> Εώς</label>
-            <input class="w3-input w3-border" type="text" placeholder="DD MM YYYY" name="CheckOut" style="text-align: center" required>
+            <input class="w3-input w3-border" type="datetime-local" name="to_time" style="text-align: center">
           </div>
         </div>
         <div class="w3-row-padding" style="margin:8px -16px;">
           <div class="w3-half w3-margin-bottom">
             <label>&euro; Από</label>
-            <input class="w3-input w3-border" type="text" placeholder="" name="MinCost" style="text-align: center" required>
+            <input class="w3-input w3-border" type="text" placeholder="" name="min_cost" style="text-align: center">
           </div>
           <div class="w3-half w3-margin-bottom">
             <label>&euro; Έως</label>
-            <input class="w3-input w3-border" type="text" placeholder="" name="MaxCost" style="text-align: center" required>
+            <input class="w3-input w3-border" type="text" placeholder="" name="max_cost" style="text-align: center">
           </div>
         </div>
 
@@ -81,11 +81,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           <div class="w3-half w3-margin-bottom">
             <label for="services"> Τύπος υπηρεσίας</label>
             <select class="w3-white w3-select w3-border" name="services" id="services">
-            <option value="Null">Όλες</option>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+
+                <?php
+                    require 'sql_connector.php';
+
+                    $sql = "SELECT * from Service;";
+
+                    $result = $conn->query($sql);
+
+                     echo sprintf("<option value=%s>%s</option>", "", "Όλες");
+
+                    if (mysqli_num_rows($result) > 0) {
+                      while($row = $result->fetch_assoc()) {
+
+                        $serv_ID = $row["service_ID"];
+                        $serv_descritpion = $row["description"];
+
+                      echo sprintf("<option value=%s>%s</option>", $serv_ID, $serv_descritpion);
+                      //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
+                      }
+                    }
+                    $conn->close();
+                 ?>
             </select>
             </div>
          <div class="w3-half w3-margin-bottom">
@@ -107,35 +124,62 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
       <tr>
         <th> Τύπος υπηρεσίας </th>
-        <th> Κωδικός επισκέπτη </th>
-        <th> Από</th>
-        <th> Έως</th>
+        <th> Κωδικός πελάτη </th>
+        <th> Ώρα χρήσης </th>
         <th> Κόστος </th>
       </tr>
-      <tr>
-        <td>United States</td>
-        <td>65%</td>
-      </tr>
-      <tr>
-        <td>UK</td>
-        <td>15.7%</td>
-      </tr>
-      <tr>
-        <td>Russia</td>
-        <td>5.6%</td>
-      </tr>
-      <tr>
-        <td>Spain</td>
-        <td>2.1%</td>
-      </tr>
-      <tr>
-        <td>India</td>
-        <td>1.9%</td>
-      </tr>
-      <tr>
-        <td>France</td>
-        <td>1.5%</td>
-      </tr>
+      <?php
+
+        require 'sql_connector.php';
+
+        $where_clause = "WHERE 1=1"; // so that if no restrictions are set the query is still valid
+
+        if(isset($_GET["from_time"]) && !empty($_GET['from_time'])){
+            //echo "in";
+            $from_timestamp = str_replace("T", " ", $_GET["from_time"]).":00";
+            $where_clause .= " AND U.timestamp_of_use >= \"".$from_timestamp."\"";
+        }
+
+        if(isset($_GET["to_time"]) && !empty($_GET['to_time'])){
+            //echo "in2";
+            $to_timestamp = str_replace("T", " ", $_GET["to_time"]).":00";
+            $where_clause .= " AND U.timestamp_of_use <= \"".$to_timestamp."\"";
+        }
+
+        if(isset($_GET["min_cost"]) && !empty($_GET['min_cost'])){
+            //echo "in3";
+            $where_clause .= " AND U.charge_amount >= ".$_GET['min_cost'];
+        }
+
+        if(isset($_GET["max_cost"]) && !empty($_GET['max_cost'])){
+            //echo "in4";
+            $where_clause .= " AND U.charge_amount <= ".$_GET['max_cost'];
+        }
+
+        if(isset($_GET["services"]) && (!empty($_GET['services']) || $_GET['services']=='0')){
+            //echo "in5";
+            $where_clause .= " AND S.service_ID = ".$_GET['services'];
+        }
+
+        $sql = "SELECT S.description, U.bracelet_UID, U.timestamp_of_use, U.charge_amount FROM Used as U join Service as S on (U.service_ID = S.service_ID) ".$where_clause.";"; // make the final query
+
+        $result = $conn->query($sql);
+
+        if (mysqli_num_rows($result) > 0) {
+          while($row = $result->fetch_assoc()) {
+
+            $serv_description = $row["description"];
+            $bracelet_UID = $row["bracelet_UID"];
+            $timestamp_of_use = $row["timestamp_of_use"];
+            $charge_amount = $row["charge_amount"]."€";
+
+          echo sprintf("<tr><th> %s </th><th> %s </th><th> %s </th><th> %s </th></tr>", $serv_description, $bracelet_UID, $timestamp_of_use, $charge_amount);
+          //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
+          }
+        }
+
+        echo "Query ".$sql."<br>";
+      ?>
     </table><br>
     <button class="w3-button w3-dark-grey">Περισσότερα  <i class="fa fa-arrow-right"></i></button>
   </div>

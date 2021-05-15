@@ -26,6 +26,7 @@ table_booked = [];
 table_provided_at = [];
 table_registered = [];
 table_accessed = [];
+table_used = [];
 
 random.seed(42);
 
@@ -133,14 +134,14 @@ def create_services():
     table_service_without_sub.append( (2,) );
 
     # with subscription
-    table_service.append( (4, "χρήση γυμναστηρίου") );
+    table_service.append( (3, "χρήση γυμναστηρίου") );
+    table_service_with_sub.append( (3,) );
+
+    table_service.append( (4, "χρήση σάουνας") );
     table_service_with_sub.append( (4,) );
 
-    table_service.append( (5, "χρήση σάουνας") );
+    table_service.append( (5, "χρήση αίθουσας συνεδρίασης") );
     table_service_with_sub.append( (5,) );
-
-    table_service.append( (6, "χρήση αίθουσας συνεδρίασης") );
-    table_service_with_sub.append( (6,) );
 
     print("INSERT INTO Service VALUES");
     print(*table_service, sep=",\n", end=";\n\n\n");
@@ -387,15 +388,63 @@ def create_accessed():
 
 
 
-    #print("INSERT INTO Accessed VALUES");
-    #print(*table_accessed, sep=",\n", end=";\n\n\n");
-    for acc in table_accessed:
-        print("INSERT INTO Accessed VALUES", acc, ";");
+    print("INSERT INTO Accessed VALUES");
+    print(*table_accessed, sep=",\n", end=";\n\n\n");
+    #for acc in table_accessed:
+    #    print("INSERT INTO Accessed VALUES", acc, ";");
 
 
+def create_used():
+
+    descriptions = [
+            ["Αγορά μπύρας", "Αγορά Cocktail", "Αγορά Αναψυκτικού", "Αγορά κρασιού"],
+            ["Παραγγελία Μακαρόνια με κιμά", "Παραγγελία στιφάδο", "Παραγγελία παστίτσιο", "Παραγγελία πίτσα", "ΣΟYΒΛΑΚΙΑ", "Παραγγελία Αναψυκτικού", "Παραγγελία Ποτού"],
+            ["Χρήση αίθουσας για συνεδρίαση", "Χρήση χώρου για εργασία"],
+            ["Χρήση διαδρόμου", "Χρήση ελλειπτικού", "Χρήση ελεύθερων βαρών"],
+            ["Χρήση σάουνας"],
+            ["Κούρεμα", "Χτένισμα", "Βάψιμο μαλλιών", "Ίσιωμα μαλλιών"]
+            ];
+
+    reasonalbe_use_count = [5, 5, 2, 2, 1, 2];
+
+    charge_range = [(4, 40), (5, 50), (30, 50), (5, 20), (10, 20), (10, 100)];
+
+    service_id = [0, 1, 5, 3, 4, 2];
+
+    mapping = {6: 0, 7:0, 8:0, 9:0, 10:0, 11:0,
+                12:1, 13:1, 14:1, 15:1,
+                16:2, 17:2, 18:2, 19:2, 20:2, 21:2, 22:2, 23:2, 24:2, 25:2,
+                26:3, 27:3, 28:3, 29:3,
+                30:4, 31:4, 32:4, 33:4, 34:4, 35:4, 36:4, 37:4, 38:4, 39:4,
+                40:5};
+
+    for access in table_accessed:
+
+        if(access[1] >= 6 and access[1] <= 40): # if it is a service room
+
+            mapping_number = mapping[access[1]];
+
+            for _ in range(  random.randint(0, reasonalbe_use_count[mapping_number]) ):
+
+                desc = random.choice(descriptions[mapping_number]);
+
+                enter_time = get_datetime(access[2]);
+                exit_time = get_datetime(access[3]);
+
+                time_of_use = random_date(enter_time, exit_time);
+
+                bracelet_UID = access[0];
+                min_charge, max_charge = charge_range[mapping_number];
+                charge_amount = random.randint(min_charge, max_charge);
+
+                
+                table_used.append( (bracelet_UID, service_id[mapping_number], str(time_of_use), charge_amount, desc) );
 
 
+    print("INSERT INTO Used  VALUES")
+    print(*table_used, sep=",\n", end=";\n\n\n\n");
 
+            
 
 
 
@@ -525,4 +574,4 @@ create_booked();
 create_registered();
 
 create_accessed();
-
+create_used();

@@ -12,77 +12,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-// Draw the chart and set the chart values
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Task', 'Hours per Day'],
-  ['Work', 8],
-  ['Eat', 2],
-  ['TV', 4],
-  ['Gym', 2],
-  ['Sleep', 8]
-]);
-
-  var options = {'title':'', 'width':800, 'height':400,
-   backgroundColor: 'transparent'};
-
-  var chart = new google.visualization.PieChart(document.getElementById('most_accessed_places_piechart'));
-  chart.draw(data, options);
-}
-</script>
-
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-// Draw the chart and set the chart values
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Task', 'Hours per Day'],
-  ['Work', 16],
-  ['Eat', 2],
-  ['TV', 4],
-  ['Gym', 2],
-  ['Sleep', 8]
-]);
-
-  var options = {'title':'', 'width':800, 'height':400, backgroundColor: 'transparent'};
-
-  var chart = new google.visualization.PieChart(document.getElementById('frequently_accessed_services_piechart'));
-  chart.draw(data, options);
-}
-</script>
-
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-// Draw the chart and set the chart values
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Task', 'Hours per Day'],
-  ['Work', 42],
-  ['Eat', 2],
-  ['TV', 4],
-  ['Gym', 2],
-  ['Sleep', 8]
-]);
-
-  var options = {'title':'', 'width':800, 'height':400, backgroundColor: 'transparent'};
-
-  var chart = new google.visualization.PieChart(document.getElementById('services_used_by_most_people_piechart'));
-  chart.draw(data, options);
-}
-</script>
 
 <body>
 
@@ -118,46 +47,89 @@ function drawChart() {
 <header class="w3-container w3-red w3-center" style="padding:82px 128px">
 
     <div class="w3-container w3-red">
-      <h2><i></i> <u>Επιλογή Ηλικιακής Ομάδας Προς Επισκόπηση </u></h2>
+      <h2><u>Επιλογή Ηλικιακής Ομάδας Και Χρονικού Διαστήματος Προς Επισκόπηση </u></h2>
     </div>
-    <div class="w3-container w3-red w3-padding-16">
-      <form action="/action_page.php" target="_blank">
 
-    <div class="w3-row-padding w3-margin-bottom">
-    <div class="w3-third">
-      <button class="w3-button w3-block w3-white w3-padding-32 w3-round"><h3>20 - 40</h3></button>
-    </div>
-    <div class="w3-third">
-      <button class="w3-button w3-block w3-white w3-padding-32 w3-round"><h3>41 - 60</h3></button>
-    </div>
-    <div class="w3-third">
-        <button class="w3-button w3-block w3-white w3-padding-32 w3-round"><h3>61+</h3></button>
-    </div>
-    </div>
+    <div class="w3-container w3-white w3-padding-16">
+      <form action="covid_dashboard.php" method="get">
+        <div class="w3-row-padding w3-margin-bottom">
+          <div class="w3-half">
+            <label for="age_group"> Ηλικιακή Ομάδα </label>
+            <select class="w3-white w3-select w3-border" name="age_group" id="age_group">
+              <option value="20-40">20-40</option>
+              <option value="41-60">41-60</option>
+              <option value="61+">61+</option>
+            </select>
+
+            <label for="timeframe"> Χρονικό Διάστημα</label>
+            <select class="w3-white w3-select w3-border" name="timeframe" id="timeframe">
+              <option value="last_year">Τον τελευαίο χρόνο</option>
+              <option value="last_month">Τον τελευταίο μήνα</option>
+            </select>
+          </div>
+          <div class="w3-half">
+              <br> <br>
+              <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Ιχνηλάτηση </button>
+          </div>
+        </div>
       </form>
     </div>
+
 </header>
 
 
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
-
-<!--
-    <div class="w3-row-padding w3-margin-bottom">
-    <div class="w3-third">
-      <div id="most_accessed_places_piechart"></div>
-    </div>
-    <div class="w3-third">
-      <div id="frequently_accessed_services_piechart"></div>
-    </div>
-    <div class="w3-third">
-        <div id="services_used_by_most_people_piechart"></div>
-    </div>
-    </div>
--->
     <div class="w3-content">
+      <h5> Πιο πολυσύχναστοι χώροι</h5>
+      <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
+        <tr>
+          <th> Χώρος </th>
+          <th> Πλήθος επισκέψεων </th>
+        </tr>
+      <?php
+      if($_GET){
+
+        include "sql_connector.php";
+
+        $sql="SELECT description_position as description, count(place_ID) as access_count
+        from (Client as C left outer join (Place as P natural join NotRoom) natural join Accessed as A on (P.ID = A.place_ID))
+        where";
+
+        $where_clause="";
+        if($_GET['timeframe'] == "last_year") {
+          $where_clause .=" exit_timestamp >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)";
+        } else {
+          $where_clause .=" exit_timestamp >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)";
+        }
+        $where_clause .= " AND";
+        if($_GET['age_group'] == "20-40") {
+          $where_clause .= " C.age BETWEEN 20 AND 40";
+        } else if($_GET['age_group'] == "41-60") {
+          $where_clause .= " C.age BETWEEN 41 AND 60";
+        } else {
+          $where_clause .= " C.age >= 61";
+        }
+        $sql .= $where_clause;
+        $sql .= " group by place_ID ORDER BY count(place_ID) DESC";
+
+        $result = $conn->query($sql);
+        $content = "";
+        if (mysqli_num_rows($result) > 0) {
+          while($row = $result->fetch_assoc()) {
+            $description = $row['description'];
+            $access_count = $row['access_count'];
+
+            $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
+            $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
+          }
+        }
+        echo $content;
+      }
+      ?>
+      </table>
         <div class="w3-third w3-center w3-padding-64">
-            <h3> Πιο πολυσύχναστοι χώροι</h3>
+
         </div>
         <div class="w3-twothird">
             <div id="most_accessed_places_piechart"></div>
@@ -167,27 +139,110 @@ function drawChart() {
 
 <!-- Second Grid -->
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
-    <div class="w3-content">
-        <div class="w3-twothird">
-            <div id="frequently_accessed_services_piechart"></div>
-        </div>
-        <div class="w3-third w3-center w3-padding-64">
-            <h3> Συχνότερα χρησιμοποιούμενες υπηρεσίες</h3>
-        </div>
-    </div>
+  <div class="w3-content">
+    <h5> Συχνότερα χρησιμοποιούμενες υπηρεσίες</h5>
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
+      <tr>
+        <th> Υπηρεσία </th>
+        <th> Πλήθος χρήσεων </th>
+      </tr>
+    <?php
+    if($_GET){
+
+      include "sql_connector.php";
+
+      $sql="SELECT S.description as description, count(U.service_ID) as service_use_count
+      from Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID))
+      where";
+
+      $where_clause="";
+      if($_GET['timeframe'] == "last_year") {
+        $where_clause .=" U.timestamp_of_use >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)";
+      } else {
+        $where_clause .=" U.timestamp_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)";
+      }
+      $where_clause .= " AND";
+      if($_GET['age_group'] == "20-40") {
+        $where_clause .= " C.age BETWEEN 20 AND 40";
+      } else if($_GET['age_group'] == "41-60") {
+        $where_clause .= " C.age BETWEEN 41 AND 60";
+      } else {
+        $where_clause .= " C.age >= 61";
+      }
+      $sql .= $where_clause;
+      $sql .= " group by U.service_ID ORDER BY count(U.service_ID) DESC";
+
+      $result = $conn->query($sql);
+
+      $content = "";
+      if (mysqli_num_rows($result) > 0) {
+        while($row = $result->fetch_assoc()) {
+          $description = $row['description'];
+          $access_count = $row['service_use_count'];
+
+          $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
+          $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
+        }
+      }
+      echo $content;
+      $conn->close();
+    }
+    ?>
+    </table>
+  </div>
 </div>
 
 
 <!-- Third Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
-    <div class="w3-content">
-        <div class="w3-third w3-center w3-padding-64">
-            <h3> Υπηρεσίες που χρησιμοποιούνται από τους περισσότερους πελάτες</h3>
-        </div>
-        <div class="w3-twothird">
-            <div id="services_used_by_most_people_piechart"></div>
-        </div>
-    </div>
+  <div class="w3-content">
+    <h5> Υπηρεσίες που χρησιμοποιούνται από τους περισσότερους πελάτες </h5>
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
+      <tr>
+        <th> Υπηρεσία </th>
+        <th> Πλήθος διακριτών πελατών </th>
+      </tr>
+    <?php
+    if($_GET){
+      include "sql_connector.php";
+      $sql="SELECT S.description as description, count(distinct(U.bracelet_UID)) as client_count
+      from (Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID)))
+      where";
+
+      $where_clause="";
+      if($_GET['timeframe'] == "last_year") {
+        $where_clause .=" U.timestamp_of_use >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)";
+      } else {
+        $where_clause .=" U.timestamp_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)";
+      }
+      $where_clause .= " AND";
+      if($_GET['age_group'] == "20-40") {
+        $where_clause .= " C.age BETWEEN 20 AND 40";
+      } else if($_GET['age_group'] == "41-60") {
+        $where_clause .= " C.age BETWEEN 41 AND 60";
+      } else {
+        $where_clause .= " C.age >= 61";
+      }
+      $sql .= $where_clause;
+      $sql .= " group by S.service_ID ORDER BY count(distinct(U.bracelet_UID)) DESC";
+
+      $result = $conn->query($sql);
+
+      $content = "";
+      if (mysqli_num_rows($result) > 0) {
+        while($row = $result->fetch_assoc()) {
+          $description = $row['description'];
+          $access_count = $row['client_count'];
+
+          $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
+          $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
+        }
+      }
+      echo $content;
+    }
+    ?>
+    </table>
+  </div>
 </div>
 
 <!-- Footer -->
