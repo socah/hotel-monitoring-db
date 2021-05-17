@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>W3.CSS Template</title>
+<title>ASDF DB | Πωλήσεις</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -49,7 +49,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <header class="w3-container w3-red w3-center" style="padding:64px 8px">
 <br>
     <div class="w3-container w3-red">
-      <h2><i><u>Επισκόπηση Πωλήσεων</u> </h2>
+      <h2><u>Επισκόπηση Πωλήσεων</u> </h2>
     </div>
     <!--<div class="w3-container w3-white w3-padding-16">
 
@@ -92,20 +92,18 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s</td></tr>", "-", "-", "-");
           }
           $conn->close();
-
       ?>
-
-    </table><br>
-    <button class="w3-button w3-dark-grey">Περισσότερα  <i class="fa fa-arrow-right"></i></button>
+      </table>
+    </div>
+    <br> <br> <br>
   </div>
-  <br> <br> <br>
 </div>
 
 
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">
  <div class="w3-xlarge w3-padding-32">
-    <a href="https://github.com/Panmen/project_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
+    <a href="https://github.com/SOCAH/ASDF_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
  </div>
  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>

@@ -106,8 +106,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
         $conn->close();
         echo $content;
       ?>
-    </table><br>
-    <button class="w3-button w3-dark-grey">Περισσότερα  <i class="fa fa-arrow-right"></i></button>
+    </table>
     <br>
 
   </div>
@@ -119,7 +118,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">
  <div class="w3-xlarge w3-padding-32">
-    <a href="https://github.com/Panmen/project_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
+    <a href="https://github.com/SOCAH/ASDF_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
  </div>
  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>

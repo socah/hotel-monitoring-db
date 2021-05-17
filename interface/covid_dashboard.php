@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>W3.CSS Template</title>
+<title>ASDF DB | COVID-19 | Επισκόπηση</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -47,10 +47,10 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <header class="w3-container w3-red w3-center" style="padding:82px 128px">
 
     <div class="w3-container w3-red">
-      <h2><u>Επιλογή Ηλικιακής Ομάδας Και Χρονικού Διαστήματος Προς Επισκόπηση </u></h2>
+      <h2>Επιλογή Ηλικιακής Ομάδας Και Χρονικού Διαστήματος Προς Επισκόπηση</h2>
     </div>
 
-    <div class="w3-container w3-white w3-padding-16">
+    <div class="w3-container w3-white w3-padding-16 w3-round">
       <form action="covid_dashboard.php" method="get">
         <div class="w3-row-padding w3-margin-bottom">
           <div class="w3-half">
@@ -69,7 +69,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           </div>
           <div class="w3-half">
               <br> <br>
-              <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Ιχνηλάτηση </button>
+              <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Επισκόπηση </button>
           </div>
         </div>
       </form>
@@ -123,8 +123,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
             $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
           }
+        } else {
+          echo "<tr> <td> - </td> <td> - </td></tr>";
         }
         echo $content;
+      } else {
+        echo "<tr> <td> - </td> <td> - </td></tr>";
       }
       ?>
       </table>
@@ -183,9 +187,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
           $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
         }
+      } else {
+        echo "<tr> <td> - </td> <td> - </td></tr>";
       }
       echo $content;
       $conn->close();
+    } else {
+      echo "<tr> <td> - </td> <td> - </td></tr>";
     }
     ?>
     </table>
@@ -200,7 +208,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
       <tr>
         <th> Υπηρεσία </th>
-        <th> Πλήθος διακριτών πελατών </th>
+        <th> Πλήθος διαφορετικών πελατών </th>
       </tr>
     <?php
     if($_GET){
@@ -237,8 +245,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           $content .= "<tr> <td style=\"vertical-align:middle;\">".$description;
           $content .= "</td> <td style=\"vertical-align:middle;\">".$access_count."</td> </tr>";
         }
+      } else {
+        echo "<tr> <td> - </td> <td> - </td></tr>";
       }
       echo $content;
+    } else {
+      echo "<tr> <td> - </td> <td> - </td></tr>";
     }
     ?>
     </table>
@@ -248,7 +260,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Footer -->
 <footer class="w3-container w3-padding-64 w3-center w3-opacity">
  <div class="w3-xlarge w3-padding-32">
-    <a href="https://github.com/Panmen/project_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
+    <a href="https://github.com/SOCAH/ASDF_DB"><i class="fa fa-github w3-hover-opacity"></i> </a>
  </div>
  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
