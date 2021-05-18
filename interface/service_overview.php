@@ -177,7 +177,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
           }
         } else {
-          echo "<tr> <td> - </td> <td> - </td></tr>";
+          echo "<tr> <td> - </td> <td> - </td><td> - </td> <td> - </td></tr>";
         }
 
         //echo "Query ".$sql."<br>";
