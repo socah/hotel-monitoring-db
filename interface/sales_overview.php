@@ -85,7 +85,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
               $sales_income = $row["sales_total"];
 
 
-            echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s</td></tr>", $serv_descritpion, $sales_count, $sales_income);
+            echo sprintf("<tr><td>%s</td> <td>%s</td> <td>%s &euro;</td></tr>", $serv_descritpion, $sales_count, $sales_income);
             //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
             }
           } else {

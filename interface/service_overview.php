@@ -171,7 +171,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             $serv_description = $row["description"];
             $bracelet_UID = $row["bracelet_UID"];
             $timestamp_of_use = $row["timestamp_of_use"];
-            $charge_amount = $row["charge_amount"]."€";
+            $charge_amount = $row["charge_amount"]." €";
 
           echo sprintf("<tr><td> %s </td><td> %s </td><td> %s </td><td> %s </td></tr>", $serv_description, $bracelet_UID, $timestamp_of_use, $charge_amount);
           //echo "".$place_descritpion." ".$enter_time." ".$last_name."<br>";
