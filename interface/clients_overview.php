@@ -66,13 +66,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <tr>
         <th>Όνομα Πελάτη</th>
         <th>Επώνυμο Πελάτη</th>
+        <th>Ηλικία</th>
         <th>Ηλ. Ταχυδρομείο</th>
         <th>Τηλέφωνα Επικοινωνίας</th>
         <th>Υπηρεσίες</th>
       </tr>
       <?php
         include "sql_connector.php";
-        $sql = "SELECT first_name, last_name, emails, phones, registered_to FROM Client_Info";
+        $sql = "SELECT * FROM Client_Info";
         $result = $conn->query($sql);
         $content = "";
         if (mysqli_num_rows($result) > 0) {
@@ -80,12 +81,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
             $first_name = $row["first_name"];
             $last_name = $row["last_name"];
+            $age = $row["age"];
             $emails = explode(',', $row["emails"]);
             $phones = explode(',', $row["phones"]);
             $services = explode(',', $row["registered_to"]);
 
             $content .= "<tr> <td style=\"vertical-align:middle;\">".$first_name;
-            $content .= "</td> <td style=\"vertical-align:middle;\">".$last_name."</td>";
+            $content .= "</td> <td style=\"vertical-align:middle;\">".$last_name;
+            $content .= "</td> <td style=\"vertical-align:middle;\">".$age."</td>";
             $content .= "<td> <ul style=\"list-style-type:none;\">";
             foreach ($emails as $email) {
               $content .= "<li>".$email."</li>";
