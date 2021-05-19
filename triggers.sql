@@ -4,7 +4,7 @@ CREATE TRIGGER every_service_provided_check
 AFTER DELETE ON Provided_At
 FOR EACH ROW
 IF (OLD.service_ID not in (select service_ID from Provided_At)) THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every service must be provided.';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every service must be provided in some place.';
 END IF;
 //
 DELIMITER ;
@@ -37,6 +37,7 @@ DELIMITER //
 CREATE TRIGGER use_check_if_registered_update
 BEFORE UPDATE ON Used
 FOR EACH ROW
+BEGIN
 IF (
 not exists(
      SELECT * FROM Registered WHERE bracelet_UID = NEW.bracelet_UID AND service_ID = NEW.service_ID
@@ -45,9 +46,17 @@ not exists(
 )
 
 ) THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Trying to add use for a service which the client is not registered to and its not a free/autoregister service';
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Trying to update use for a service which the client is not registered to and its not a free/autoregister service';
 END IF;
-//
+
+IF (not exists(
+    SELECT * FROM  Accessed WHERE bracelet_UID = NEW.bracelet_UID AND
+        place_ID in (SELECT place_ID FROM Provided_At WHERE service_ID = NEW.service_ID)
+        AND NEW.timestamp_of_use BETWEEN enter_timestamp AND exit_timestamp)
+) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Trying to add use for a service which the client has not accessed';
+END IF;
+END; //
 DELIMITER ;
 
 -- ISA if specilization gets deleted so does the Generalization
@@ -113,22 +122,25 @@ where name = 'Χώρος υποδοχής' OR name = 'Ανελκυστήρες')
 END; //
 DELIMITER ;
 
--- Check for already booked rooms
+
 DELIMITER //
 CREATE TRIGGER check_booked_rooms_insert
 BEFORE INSERT ON Booked
 FOR EACH ROW
+BEGIN
+IF (exists (select * from Client as C where (C.bracelet_UID = NEW.bracelet_UID) AND (C.arrival_timestamp > TIMESTAMP(NEW.from_date, "23:59:59"))) ) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert booking with from_date ahead of client arrival time.';
+END IF;
+-- Check for already booked rooms
 IF (exists(
      SELECT * FROM Booked as A WHERE A.room_ID = NEW.room_ID AND
      (
-         (A.from_date BETWEEN NEW.from_date AND NEW.to_date) OR
-         (A.to_date BETWEEN NEW.from_date AND NEW.to_date) OR
-         (A.from_date <= NEW.from_date) AND (NEW.to_date <= A.to_date)
+         A.from_date <= NEW.to_date AND NEW.from_date <= A.to_date
      )
  )) THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room already Booked for some of the days';
 END IF;
-//
+END; //
 DELIMITER ;
 
 -- ADD ACCESS to booked room_ID
@@ -147,13 +159,14 @@ CREATE TRIGGER check_booked_rooms_update
 BEFORE UPDATE ON Booked
 FOR EACH ROW
 BEGIN
+    IF (exists (select * from Client as C where (C.bracelet_UID = NEW.bracelet_UID) AND (C.arrival_timestamp > TIMESTAMP(NEW.from_date, "23:59:59"))) ) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert booking with from_date ahead of client arrival time.';
+    END IF;
     -- check if room already booked for some days
     IF (exists(
          SELECT * FROM Booked as A WHERE A.room_ID = NEW.room_ID AND
          (
-             (A.from_date BETWEEN NEW.from_date AND NEW.to_date) OR
-             (A.to_date BETWEEN NEW.from_date AND NEW.to_date) OR
-             (A.from_date <= NEW.from_date) AND (NEW.to_date <= A.to_date)
+             A.from_date <= NEW.to_date AND NEW.from_date <= A.to_date
          )
      )) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room already Booked for some of the days';
@@ -242,9 +255,7 @@ BEGIN
     IF (exists(
              SELECT * FROM Accessed as A WHERE A.bracelet_UID = NEW.bracelet_UID AND
              (
-                 (A.enter_timestamp BETWEEN NEW.enter_timestamp AND NEW.exit_timestamp) OR
-                 (A.exit_timestamp BETWEEN NEW.enter_timestamp AND NEW.exit_timestamp) OR
-                 (A.enter_timestamp <= NEW.enter_timestamp) AND (NEW.exit_timestamp <= A.exit_timestamp)
+                 A.enter_timestamp <= NEW.exit_timestamp AND NEW.enter_timestamp <= A.exit_timestamp
              )
          )) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Client access is overlapping with an other access';
@@ -261,6 +272,7 @@ BEGIN
 END; //
 DELIMITER ;
 
+
 DELIMITER //
 CREATE TRIGGER check_if_delete_place_is_legal
 BEFORE DELETE ON Place
@@ -273,7 +285,7 @@ END; //
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER check_if_this_NotRoom_wa
+CREATE TRIGGER check_if_this_NotRoom_can_be_deleted
 BEFORE DELETE ON NotRoom
 FOR EACH ROW
 BEGIN

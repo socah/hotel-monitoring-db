@@ -8,7 +8,7 @@ CREATE TABLE Client (
   last_name         varchar(20) not null,
   id_type           enum ('ID', 'Passport', 'None') default 'None' not null,
   id_number         varchar(15), -- children may not have a ID
-  id_authority      varchar(20),
+  id_authority      varchar(50),
   arrival_timestamp timestamp, -- if set null then the current time is set, no point in not null
   birth_date        date not null,
   age int GENERATED ALWAYS AS (FLOOR(DATEDIFF(NOW(), birth_date) / 365.25)) VIRTUAL,
@@ -187,7 +187,7 @@ CREATE TABLE Provided_At (
         ON DELETE CASCADE
         ON UPDATE CASCADE,
     foreign key (place_ID) references NotRoom(ID)
-        ON DELETE CASCADE -- check somehow if it is the last room, becasue it should not be removed
+        ON DELETE CASCADE
         ON UPDATE CASCADE
 
 );

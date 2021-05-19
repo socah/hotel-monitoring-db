@@ -495,8 +495,8 @@ def create_clients(client_count):
     d1 = datetime.strptime('1/1/1947 1:01 AM', '%d/%m/%Y %I:%M %p');
     d2 = datetime.strptime('10/5/2020 1:01 AM', '%d/%m/%Y %I:%M %p');
 
-    d1_arrival = datetime.strptime('1/1/2020 1:01 AM', '%d/%m/%Y %I:%M %p');
-    d2_arrival = datetime.strptime('10/5/2021 1:01 AM', '%d/%m/%Y %I:%M %p');
+    d1_arrival = datetime.strptime('1/2/2021 1:01 AM', '%d/%m/%Y %I:%M %p');
+    d2_arrival = datetime.strptime('28/5/2021 1:01 AM', '%d/%m/%Y %I:%M %p');
 
 
     for i in range(0, client_count):
