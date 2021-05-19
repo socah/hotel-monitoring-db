@@ -27,8 +27,8 @@ where Other.place_ID = ILL.place_ID and (
 
 -- Ερώτημα 11
 
-select description_position as description, count(place_ID) as access_count
-from (Client as C left outer join (Place as P natural join NotRoom) natural join Accessed as A on (P.ID = A.place_ID))
+select description_position as description, count(*) as access_count
+from (Client as C natural join Accessed as A) join (Place as P natural join NotRoom) on (P.ID = A.place_ID)
 
 where
 
@@ -45,7 +45,8 @@ group by place_ID
 ORDER BY 'access_count' DESC
 
 
-select S.description as description, count(U.service_ID) as service_use_count
+
+select S.description as description, count(*) as service_use_count
 from Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID))
 where
 
@@ -61,7 +62,8 @@ C.age >= 61
 group by U.service_ID
 ORDER BY 'service_use_count' DESC
 
-select S.description as description, count(distinct(U.bracelet_UID)) as client_count
+
+select S.description as description, count(distinct U.bracelet_UID ) as client_count
 from (Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID)))
 
 where

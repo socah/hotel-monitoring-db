@@ -92,8 +92,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
         include "sql_connector.php";
 
-        $sql="SELECT description_position as description, count(place_ID) as access_count
-        from (Client as C left outer join (Place as P natural join NotRoom) natural join Accessed as A on (P.ID = A.place_ID))
+        $sql="SELECT description_position as description, count(*) as access_count
+        from (Client as C natural join Accessed as A) join (Place as P natural join NotRoom) on (P.ID = A.place_ID)
         where";
 
         $where_clause="";
