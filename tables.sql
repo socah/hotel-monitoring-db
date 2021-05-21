@@ -11,7 +11,7 @@ CREATE TABLE Client (
   id_authority      varchar(50),
   arrival_timestamp timestamp, -- if set null then the current time is set, no point in not null
   birth_date        date not null,
-  age int GENERATED ALWAYS AS (FLOOR(DATEDIFF(NOW(), birth_date) / 365.25)) VIRTUAL,
+  age int unsigned GENERATED ALWAYS AS (FLOOR(DATEDIFF(NOW(), birth_date) / 365.25)) VIRTUAL,
 
   constraint ID_NULL_ERROR check ( (id_type = 'None' and id_number is Null and id_authority is NULL)
                                 or (id_type != 'None' and id_number is not Null and id_authority is not NULL)),
