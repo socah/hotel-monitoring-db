@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "ASDF_DB_V2";
+$database = "ASDF_DB";
 
 $conn = new mysqli($servername, $username, $password, $database);
 

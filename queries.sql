@@ -1,11 +1,20 @@
 
 
--- Ερώτημα 8 β
--- create view ServiceSales as
--- select S.description as service_description, count(U.charge_amount) as sales_count, COALESCE(sum(U.charge_amount), 0) as sales_total
--- from Service as S left outer join Used as U on (S.service_ID = U.service_ID)
--- group by S.description;
+-- Ερώτημα 7
 
+SELECT S.description, U.bracelet_UID, U.timestamp_of_use, U.charge_amount
+FROM Used as U join Service as S on (U.service_ID = S.service_ID) 
+WHERE
+	U.timestamp_of_use >= XXXXXX -- Χρησιμοποιούνται οι συνθήκες αυτές κατά περίπτωση
+AND U.timestamp_of_use <= XXXXXXX
+AND U.charge_amount >= XXXXXXX
+AND U.charge_amount <= XXXXXXX
+AND S.service_ID = XXXXXXX
+
+-- Ερώτημα 8 β
+-- Tα views ορίζονται στο αρχείο views.sql
+
+SELECT * from Client_Info;
 SELECT * from ServiceSales;
 
 -- Ερώτημα 9
@@ -25,8 +34,10 @@ where Other.place_ID = ILL.place_ID and (
     (ILL.enter_timestamp <= Other.exit_timestamp and Other.enter_timestamp <= ILL.up_to)
 ) and ILL.bracelet_UID <> Other.bracelet_UID);
 
+
 -- Ερώτημα 11
 
+-- Πιο πολυσύχναστοι χώροι
 select description_position as description, count(*) as access_count
 from (Client as C natural join Accessed as A) join (Place as P natural join NotRoom) on (P.ID = A.place_ID)
 
@@ -45,7 +56,7 @@ group by place_ID
 ORDER BY 'access_count' DESC
 
 
-
+-- Συχνότερα χρησιμοποιούμενες υπηρεσίες
 select S.description as description, count(*) as service_use_count
 from Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID))
 where
@@ -63,6 +74,7 @@ group by U.service_ID
 ORDER BY 'service_use_count' DESC
 
 
+-- Υπηρεσίες που χρησιμοποιούνται από τους περισσότερους πελάτες
 select S.description as description, count(distinct U.bracelet_UID ) as client_count
 from (Client as C natural join (Used as U join Service as S on (U.service_ID = S.service_ID)))
 
