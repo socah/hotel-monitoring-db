@@ -72,10 +72,11 @@ CREATE TABLE Service_Without_Subscription (
 -- ROOM ISA BEGIN
 CREATE TABLE Place (
     ID int unsigned AUTO_INCREMENT, -- not null not needed because it is in the primary key
-    name varchar(35) not null,  -- maybe it is not needed
+    name varchar(35) not null,  -- it is not needed
     description_position varchar(60) not null,
 
-    primary key (ID)
+    primary key (ID),
+    unique (description_position)
 );
 
 CREATE TABLE NotRoom (
@@ -126,7 +127,7 @@ CREATE TABLE Booked (
   to_date       date not null,
 
   constraint FROM_TO_DATE_ERROR check(from_date <= to_date),
-  primary key (bracelet_UID, room_ID),  -- One client can book a specific room once
+  primary key (bracelet_UID, room_ID, from_date),
   foreign key (bracelet_UID) references Client (bracelet_UID)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
@@ -196,7 +197,7 @@ CREATE TABLE Used (
   bracelet_UID      int unsigned zerofill, -- not null not needed because it is in the primary key
   service_ID        int unsigned, -- not null not needed because it is in the primary key
   timestamp_of_use  timestamp,
-  charge_amount     numeric(6, 2) unsigned,
+  charge_amount     numeric(6, 2) unsigned not null,
   description       varchar(150), -- can be null
 
   primary key (bracelet_UID, service_ID, timestamp_of_use),

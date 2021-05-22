@@ -177,7 +177,7 @@ BEGIN
          SELECT * FROM Booked as A WHERE A.room_ID = NEW.room_ID AND
          (
              A.from_date <= NEW.to_date AND NEW.from_date <= A.to_date
-         )
+         ) AND NOT (A.bracelet_UID = OLD.bracelet_UID AND A.room_ID = OLD.room_ID AND A.from_date = OLD.from_date) -- not the same old entry
      )) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Room already Booked for some of the days';
     END IF;
@@ -194,8 +194,8 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every client must have at least one room.';
     END IF;
 
-    DELETE FROM Has_Access WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = (SELECT corridor_id FROM Room WHERE ID = OLD.room_ID);
-    DELETE FROM Has_Access WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = OLD.room_ID;
+    DELETE FROM Has_Access WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = (SELECT corridor_id FROM Room WHERE ID = OLD.room_ID) AND from_timestamp = TIMESTAMP(OLD.from_date);
+    DELETE FROM Has_Access WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = OLD.room_ID AND from_timestamp = TIMESTAMP(OLD.from_date);
 END; //
 DELIMITER ;
 
@@ -217,8 +217,8 @@ CREATE TRIGGER update_access_to_booked_room_and_check_overlaping_days
 AFTER UPDATE ON Booked
 FOR EACH ROW
 BEGIN
-    UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = NEW.room_ID, from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = OLD.room_ID ;
-    UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = NEW.room_ID, from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = (SELECT corridor_id FROM Room WHERE ID = NEW.room_ID);
+    UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = NEW.room_ID, from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = OLD.room_ID  AND from_timestamp = TIMESTAMP(OLD.from_date);
+    UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = (SELECT corridor_id FROM Room WHERE ID = NEW.room_ID), from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = (SELECT corridor_id FROM Room WHERE ID = OLD.room_ID) AND from_timestamp = TIMESTAMP(OLD.from_date);
 END; //
 DELIMITER ;
 
