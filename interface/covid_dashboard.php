@@ -56,15 +56,28 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
           <div class="w3-half">
             <label for="age_group"> Ηλικιακή Ομάδα </label>
             <select class="w3-white w3-select w3-border" name="age_group" id="age_group">
-              <option value="20-40">20-40</option>
-              <option value="41-60">41-60</option>
-              <option value="61+">61+</option>
+              <?php
+              if($_GET and ($_GET['age_group'] != "20-40")){
+                if($_GET['age_group'] == "41-60"){
+                  echo "<option value=\"41-60\">41-60</option> <option value=\"20-40\">20-40</option> <option value=\"61+\">61+</option>";
+                } else {
+                  echo "<option value=\"61+\">61+</option> <option value=\"20-40\">20-40</option> <option value=\"41-60\">41-60</option>";
+                }
+              } else {
+                echo "<option value=\"20-40\">20-40</option> <option value=\"41-60\">41-60</option> <option value=\"61+\">61+</option>";
+              }
+              ?>
             </select>
 
             <label for="timeframe"> Χρονικό Διάστημα</label>
             <select class="w3-white w3-select w3-border" name="timeframe" id="timeframe">
-              <option value="last_year">Τον τελευαίο χρόνο</option>
-              <option value="last_month">Τον τελευταίο μήνα</option>
+              <?php
+              if ($_GET and ($_GET['timeframe'] != "last_month")) {
+                echo "<option value=\"last_year\">Τον τελευαίο χρόνο</option> <option value=\"last_month\">Τον τελευταίο μήνα</option> ";
+              } else {
+                echo "<option value=\"last_month\">Τον τελευταίο μήνα</option> <option value=\"last_year\">Τον τελευαίο χρόνο</option>";
+              }
+               ?>
             </select>
           </div>
           <div class="w3-half">
