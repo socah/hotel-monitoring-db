@@ -80,7 +80,7 @@ from (Client as C natural join (Used as U join Service as S on (U.service_ID = S
 
 where
 
-U.timestapm_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)
+U.timestamp_of_use >= TIMESTAMPADD(MONTH,-1,CURRENT_TIMESTAMP)
 U.timestamp_of_use >= TIMESTAMPADD(YEAR,-1,CURRENT_TIMESTAMP)
 
 AND
