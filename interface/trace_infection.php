@@ -13,9 +13,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
 </style>
 
-<!--<head>
-
-</head>-->
 <body>
 
 <!-- Navbar -->
