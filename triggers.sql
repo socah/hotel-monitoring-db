@@ -1,11 +1,14 @@
 -- Cardinality constraint of Provided_At relation towards Service
 DELIMITER //
-CREATE TRIGGER do_not_delete_the_last_provided_at_for_a_service
+CREATE TRIGGER delete_access_and_do_not_delete_last_provided_at_for_a_service
 AFTER DELETE ON Provided_At
 FOR EACH ROW
+BEGIN
 IF (OLD.service_ID not in (select service_ID from Provided_At)) THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every service must be provided in some place.';
 END IF;
+DELETE FROM Has_Access WHERE place_ID = OLD.place_ID;
+END;
 //
 DELIMITER ;
 
