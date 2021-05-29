@@ -1,17 +1,32 @@
 -- Cardinality constraint of Provided_At relation towards Service
 DELIMITER //
-CREATE TRIGGER delete_access_and_do_not_delete_last_provided_at_for_a_service
+CREATE TRIGGER delete_has_access_and_do_not_delete_last_provided_at_for_a_service
 AFTER DELETE ON Provided_At
 FOR EACH ROW
 BEGIN
 IF (OLD.service_ID not in (select service_ID from Provided_At)) THEN
+	-- Αν δεν υπάρχει άλλος χώρος που να παρέχει την υπηρεσία, τότε ακύρωσε το deletion
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every service must be provided in some place.';
 END IF;
-DELETE FROM Has_Access WHERE place_ID = OLD.place_ID;
+DELETE FROM Has_Access WHERE place_ID = OLD.place_ID; -- Αφαιρούμε την πρόσβαση σε αυτόν τον χώρο για κάθε πελάτη
 END;
 //
 DELIMITER ;
 
+-- Μην διαγράψεις το τελευταίο Has_Access ενός πελάτη
+DELIMITER //
+CREATE TRIGGER do_not_delete_last_has_access 
+AFTER DELETE ON Has_Access
+FOR EACH ROW
+BEGIN
+IF (OLD.bracelet_UID not in (select bracelet_UID from Has_Access)) THEN
+	-- Αν ο πελάτης μετά την διαγραφή δεν έχει πρόσβαση σε κανέναν χώρο, τότε ακύρωσε την διαγραφή
+	-- Με αυτόν τον τρόπο διατηρούμε το cardinality constraint μεταξύ του Client και του Has_Access κατά την διαγραφή
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Deletion not allowed. Every client must have accesses to at least one place.';
+END IF;
+END;
+//
+DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER check_if_delete_place_is_legal
@@ -42,15 +57,14 @@ DELIMITER //
 CREATE TRIGGER check_if_insertion_of_use_is_legal
 BEFORE INSERT ON Used
 FOR EACH ROW
-IF (
-not exists(
+IF (not exists(
      SELECT * FROM Registered WHERE bracelet_UID = NEW.bracelet_UID AND service_ID = NEW.service_ID
-) AND not exists(
+	) AND not exists(
     SELECT * FROM Service_Without_Subscription WHERE service_ID = NEW.service_ID
-)
-
+	)
 ) THEN
 	-- Αν δεν έχει εγγραφεί στην υπηρεσία ενώ η υπηρεσία απαιτεί εγγραφή
+	-- Ακυρώνουμε το insertion για χρήση αυτής της υπηρεσίας
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Trying to add use for a service which the client is not registered to and its not a free/autoregister service';
 ELSEIF (not exists(
     SELECT * FROM  Accessed WHERE bracelet_UID = NEW.bracelet_UID AND
@@ -128,7 +142,7 @@ BEGIN
              )
          )) THEN
 		-- Ο πελάτης βρίσκεται κάπου αλλού
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Client access is overlapping with an other access';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Client access is overlapping with another access';
     END IF;
 END; //
 DELIMITER ;
@@ -162,7 +176,8 @@ IF (exists (select * from Client as C where (C.bracelet_UID = NEW.bracelet_UID) 
 	-- Προσπαθούμε να κλείσουμε ένα δωμάτιο για μερικές μέρες προτού φτάσει ο πελάτης
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert booking with from_date ahead of client arrival time.';
 END IF;
--- Check for already booked rooms
+
+-- Ελέγχουμε αν το δωμάτιο είναι κλεισμένο για κάποιες από τις ημέρες που προσπαθούμε να το κλείσουμε
 IF (exists(
      SELECT * FROM Booked as A WHERE A.room_ID = NEW.room_ID AND
      (
@@ -184,7 +199,7 @@ BEGIN
     IF (exists (select * from Client as C where (C.bracelet_UID = NEW.bracelet_UID) AND (C.arrival_timestamp > TIMESTAMP(NEW.from_date, "23:59:59"))) ) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot insert booking with from_date ahead of client arrival time.';
     END IF;
-    -- check if room already booked for some days
+	-- Ελέγχουμε αν το δωμάτιο είναι κλεισμένο για κάποιες από τις ημέρες που προσπαθούμε να το κλείσουμε
     IF (exists(
          SELECT * FROM Booked as A WHERE A.room_ID = NEW.room_ID AND
          (
@@ -232,6 +247,7 @@ CREATE TRIGGER update_access_to_booked_room
 AFTER UPDATE ON Booked
 FOR EACH ROW
 BEGIN
+	-- Ενημερώνουμε τα Has_Access του δωματίου και του διαδρόμου
     UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = NEW.room_ID, from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = OLD.room_ID  AND from_timestamp = TIMESTAMP(OLD.from_date);
     UPDATE Has_Access SET bracelet_UID = NEW.bracelet_UID, place_ID = (SELECT corridor_id FROM Room WHERE ID = NEW.room_ID), from_timestamp = TIMESTAMP(NEW.from_date), to_timestamp = TIMESTAMP(NEW.to_date,'23:59:59') WHERE bracelet_UID = OLD.bracelet_UID AND place_ID = (SELECT corridor_id FROM Room WHERE ID = OLD.room_ID) AND from_timestamp = TIMESTAMP(OLD.from_date);
 END; //
@@ -244,16 +260,16 @@ AFTER INSERT ON Client
 FOR EACH ROW
 BEGIN
 FOR element IN
-(
-select ID
-from Place
-inner join Provided_At on Place.ID = Provided_At.place_ID
-inner join Service using (service_ID)
-inner join Service_Without_Subscription using (service_ID)
-)
+	(
+	select ID
+	from Place
+	inner join Provided_At on Place.ID = Provided_At.place_ID
+	inner join Service using (service_ID)
+	inner join Service_Without_Subscription using (service_ID)
+	)
 DO
-INSERT INTO Has_Access (bracelet_UID, place_ID, from_timestamp)
-VALUES (NEW.bracelet_UID, element.ID, NEW.arrival_timestamp); -- Προσθέτουμε Has_Access στους χώρους όλων των υπηρεσιών χωρίς εγγραφή
+	INSERT INTO Has_Access (bracelet_UID, place_ID, from_timestamp)
+	VALUES (NEW.bracelet_UID, element.ID, NEW.arrival_timestamp); -- Προσθέτουμε Has_Access στους χώρους όλων των υπηρεσιών χωρίς εγγραφή
 END FOR;
 
 INSERT INTO Has_Access (bracelet_UID, place_ID, from_timestamp)
