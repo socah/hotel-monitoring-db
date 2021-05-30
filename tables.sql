@@ -104,20 +104,7 @@ CREATE TABLE Room (
 );
 -- ROOM ISA END
 
--- RELATIONS TABLES BEGIN
-CREATE TABLE Registered (
-  bracelet_UID            int unsigned zerofill, -- not null not needed because it is in the primary key
-  service_ID              int unsigned, -- not null not needed because it is in the primary key
-  registration_timestamp  timestamp, -- if set null then the current time is set, no point in not null
 
-  primary key (bracelet_UID, service_ID),
-  foreign key (bracelet_UID) references Client (bracelet_UID)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  foreign key (service_ID) references Service_With_Subscription (service_ID)
-    ON DELETE RESTRICT -- if at least one is registered, then a service cannot be deleted
-    ON UPDATE CASCADE
-);
 
 CREATE TABLE Booked (
   bracelet_UID  int unsigned zerofill, -- not null not needed because it is in the primary key
@@ -206,6 +193,21 @@ CREATE TABLE Used (
       ON UPDATE CASCADE,
   foreign key (service_ID) references Service (service_ID)
     ON DELETE RESTRICT
+    ON UPDATE CASCADE
+);
+
+-- RELATIONS TABLES BEGIN
+CREATE TABLE Registered (
+  bracelet_UID            int unsigned zerofill, -- not null not needed because it is in the primary key
+  service_ID              int unsigned, -- not null not needed because it is in the primary key
+  registration_timestamp  timestamp, -- if set null then the current time is set, no point in not null
+
+  primary key (bracelet_UID, service_ID),
+  foreign key (bracelet_UID) references Client (bracelet_UID)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  foreign key (service_ID) references Service_With_Subscription (service_ID)
+    ON DELETE RESTRICT -- if at least one is registered, then a service cannot be deleted
     ON UPDATE CASCADE
 );
 -- RELATIONS TABLES END
