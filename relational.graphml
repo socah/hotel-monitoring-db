@@ -236,16 +236,16 @@ Corridor_ID
     <node id="n12">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.big_entity">
-          <y:Geometry height="114.9726912640611" width="90.0" x="-135.0" y="355.8905674963528"/>
+          <y:Geometry height="114.9726912640611" width="109.44" x="-154.44" y="355.8905674963528"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.1328125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.896484375" x="21.5517578125" xml:space="preserve" y="4.0">Booked</y:NodeLabel>
-          <y:NodeLabel alignment="left" autoSizePolicy="content" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="79.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="76.0" x="2.0" xml:space="preserve" y="30.1328125">&lt;html&gt;
+          <y:NodeLabel alignment="center" autoSizePolicy="node_width" backgroundColor="#B7C9E3" configuration="com.yworks.entityRelationship.label.name" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasLineColor="false" height="18.1328125" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="109.44" x="0.0" xml:space="preserve" y="4.0">Booked</y:NodeLabel>
+          <y:NodeLabel alignment="left" autoSizePolicy="node_width" configuration="com.yworks.entityRelationship.label.attributes" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="79.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="top" visible="true" width="109.44" x="2.0" xml:space="preserve" y="30.1328125">&lt;html&gt;
 &lt;u&gt;
 Bracelet_UID&lt;br&gt;
 Room_ID&lt;br&gt;
 &lt;/u&gt;
-charge&lt;br&gt;
+charge_amount&lt;br&gt;
 From_Date&lt;br&gt;
 To_Date&lt;br&gt;
 &lt;/html&gt;<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
@@ -472,7 +472,7 @@ To_Timestamp&lt;br&gt;
     <edge id="e13" source="n12" target="n10">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="44.98291015625" sy="0.0" tx="-80.16992131520155" ty="-6.953161651316009">
+          <y:Path sx="54.69921875000002" sy="0.0" tx="-80.16992131520155" ty="-6.953161651316009">
             <y:Point x="44.58576549979949" y="413.3769131283833"/>
             <y:Point x="44.58576549979949" y="650.1388272564492"/>
           </y:Path>
@@ -485,7 +485,7 @@ To_Timestamp&lt;br&gt;
     <edge id="e14" source="n12" target="n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="44.97598913171108" sy="-18.021076587545167" tx="-98.45810936811671" ty="-48.60971679113197">
+          <y:Path sx="54.69080278416069" sy="-18.021076587545167" tx="-98.45810936811671" ty="-48.60971679113197">
             <y:Point x="43.02038694685987" y="395.35583654083814"/>
             <y:Point x="43.02038694685987" y="90.69837019249063"/>
           </y:Path>
