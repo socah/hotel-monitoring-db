@@ -23,6 +23,7 @@ CREATE TABLE Phones (
     bracelet_UID  int unsigned zerofill,
     phone         varchar(15), -- e.g. +30 69..... it is text  -- not null not needed because it is in the primary key
 
+	constraint INVALID_PHONE check(phone RLIKE '\\+\\d\\d \\d+'),
     primary key (bracelet_UID, phone),
     foreign key (bracelet_UID) references Client(bracelet_UID)
         ON DELETE CASCADE
