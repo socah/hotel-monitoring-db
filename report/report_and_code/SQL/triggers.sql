@@ -1,6 +1,6 @@
 -- Cardinality constraint of Provided_At relation towards Service
 DELIMITER //
-CREATE TRIGGER delete_has_access_and_do_not_delete_last_provided_at_for_a_service
+CREATE TRIGGER deletion_on_provided_at
 AFTER DELETE ON Provided_At
 FOR EACH ROW
 BEGIN
