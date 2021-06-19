@@ -245,7 +245,7 @@ Corridor_ID
 Bracelet_UID&lt;br&gt;
 Room_ID&lt;br&gt;
 &lt;/u&gt;
-charge_amount&lt;br&gt;
+Charge_amount&lt;br&gt;
 From_Date&lt;br&gt;
 To_Date&lt;br&gt;
 &lt;/html&gt;<y:LabelModel><y:ErdAttributesNodeLabelModel/></y:LabelModel><y:ModelParameter><y:ErdAttributesNodeLabelModelParameter/></y:ModelParameter></y:NodeLabel>
@@ -459,8 +459,8 @@ To_Timestamp&lt;br&gt;
     <edge id="e12" source="n10" target="n11">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="80.19189120979371" sy="38.005645373767585" tx="-48.50710124008219" ty="-4.610901559869831">
-            <y:Point x="422.93733804824495" y="695.0976342815328"/>
+          <y:Path sx="80.22581596202212" sy="24.547651310401534" tx="-48.50710124008219" ty="-4.610901559869831">
+            <y:Point x="422.93733804824495" y="681.6396402181667"/>
             <y:Point x="422.93733804824495" y="650.5162708185934"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
