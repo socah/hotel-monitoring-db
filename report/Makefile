@@ -1,2 +1,2 @@
 zip:
-	zip -r report_and_code.zip report_and_code/ -x "*.DS_Store" -x "__MACOSX"
+	zip -r αναφορά_el18052_el18174.zip αναφορά_el18052_el18174/ -x "*.DS_Store" -x "__MACOSX"
