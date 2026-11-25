@@ -38,74 +38,74 @@ def create_places():
 
 
     # ------------------------------ ADDING MISC PLACES ------------------------------
-    table_place.append( (0, "Χώρος υποδοχής", "Χώρος υποδοχής στο ισόγειο") );
+    table_place.append( (0, "Reception", "Reception, ground floor") );
     table_not_room.append((0,));
 
     # Ανελκυστήρες
     offset = len(table_place);
     for i in range(0, 5):
-        table_place.append( (i + offset, "Ανελκυστήρες", "Ανελκυστήρας #{}".format(i+1)) );
+        table_place.append( (i + offset, "Elevators", "Elevator #{}".format(i+1)) );
         table_not_room.append((i + offset,));
 
     # ------------------------------ ADDING SERVICE ROOMS ------------------------------
     # μπαρ
     offset = len(table_place);
     for i in range(0, 6):
-        table_place.append( (i+offset, "Μπαρ", "Μπαρ #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Bar", "Bar #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # εστιατόρια
     offset = len(table_place);
     for i in range(0, 4):
-        table_place.append( (i+offset, "Εστιατόριο", "Εστιατόριο #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Restaurant", "Restaurant #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # αίθουσες εργασίας συνεδριάσεων
     offset = len(table_place);
     for i in range(0, 10):
-        table_place.append( (i+offset, "Αίθουσα εργασίας/συνεδριάσεων", "Αίθουσα εργασίας/συνεδριάσεων #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Meeting room", "Meeting room #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # γυμναστήρια
     offset = len(table_place);
     for i in range(0, 4):
-        table_place.append( (i+offset, "Γυμναστήριο", "Γυμναστήριο #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Gym", "Gym #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # σάουνες
     offset = len(table_place);
     for i in range(0, 10):
-        table_place.append( (i+offset, "Σάουνα", "Σάουνα #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Sauna", "Sauna #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # κομμωτήριο
     offset = len(table_place);
     for i in range(0, 1):
-        table_place.append( (i+offset, "Κομμωτήριο", "Κομμωτήριο #{} στο ισόγειο".format(i+1)) );
+        table_place.append( (i+offset, "Hair salon", "Hair salon #{}, ground floor".format(i+1)) );
         table_not_room.append((i+offset,));
 
     # ------------------------------ ADDING Coorridors ------------------------------
 
     cooridor_IDs = [[-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1], [-1, -1, -1, -1]];
-    direction = ["Βόρειος", "Ανατολικός", "Νότιος", "Δυτικός"];
+    direction = ["North", "East", "South", "West"];
 
     for floor in range(1, 5+1):
         for dir in range(len(direction)):
             ID = len(table_place);
-            table_place.append( (ID, "Διάδρομος", "{} διάδρομος στον όροφο {}".format(direction[dir], floor)) );
+            table_place.append( (ID, "Corridor", "{} corridor, floor {}".format(direction[dir], floor)) );
             table_not_room.append((ID,));
             cooridor_IDs[floor-1][dir] = ID;
 
     # ------------------------------ ADDING Rooms ------------------------------
 
-    direction = ["Βόρειο", "Ανατολικό", "Νότιο", "Δυτικό"];
+    direction = ["North", "East", "South", "West"];
 
     room_number = 1;
     for floor in range(1, 5+1):
         for dir in range(len(direction)):
             for count in range(20):
                 ID = len(table_place);
-                table_place.append( (ID, "Δωμάτιο", "Δωμάτιο #{:03} στον όροφο {} στον {}".format(room_number, floor, direction[dir])) );
+                table_place.append( (ID, "Room", "Room #{:03}, floor {}, {} wing".format(room_number, floor, direction[dir])) );
                 table_room.append( (ID, random.randint(1, 5), cooridor_IDs[floor-1][dir]) );
                 room_number = room_number + 1;
 
@@ -124,23 +124,23 @@ def create_places():
 def create_services():
 
     # without subscription
-    table_service.append( (0, "σερβίρισμα ποτού στο μπαρ") );
+    table_service.append( (0, "Bar service") );
     table_service_without_sub.append( (0,) );
 
-    table_service.append( (1, "σερβίρισμα φαγητού-ποτού στο εστιατόριο") );
+    table_service.append( (1, "Restaurant service") );
     table_service_without_sub.append( (1,) );
 
-    table_service.append( (2, "υπηρεσίες κομμωτηρίου") );
+    table_service.append( (2, "Hair salon services") );
     table_service_without_sub.append( (2,) );
 
     # with subscription
-    table_service.append( (3, "χρήση γυμναστηρίου") );
+    table_service.append( (3, "Gym use") );
     table_service_with_sub.append( (3,) );
 
-    table_service.append( (4, "χρήση σάουνας") );
+    table_service.append( (4, "Sauna use") );
     table_service_with_sub.append( (4,) );
 
-    table_service.append( (5, "χρήση αίθουσας συνεδρίασης") );
+    table_service.append( (5, "Meeting room use") );
     table_service_with_sub.append( (5,) );
 
     print("INSERT INTO Service VALUES");
@@ -156,15 +156,15 @@ def create_provided_at():
 
     # μπαρ
 
-    service_room_name = ["Μπαρ",  "Εστιατόριο", "Κομμωτήριο",
-            "Αίθουσα εργασίας/συνεδριάσεων",  "Γυμναστήριο",
-            "Σάουνα"];
-    service_name = ["σερβίρισμα ποτού στο μπαρ",
-            "σερβίρισμα φαγητού-ποτού στο εστιατόριο",
-            "υπηρεσίες κομμωτηρίου",
-            "χρήση αίθουσας συνεδρίασης",
-            "χρήση γυμναστηρίου",
-            "χρήση σάουνας"];
+    service_room_name = ["Bar",  "Restaurant", "Hair salon",
+            "Meeting room",  "Gym",
+            "Sauna"];
+    service_name = ["Bar service",
+            "Restaurant service",
+            "Hair salon services",
+            "Meeting room use",
+            "Gym use",
+            "Sauna use"];
 
     service_room_count = [6, 4, 1, 10, 4, 10];
 
@@ -199,7 +199,7 @@ def date_to_datetime(DATE, h, m, s):
 # return a tuple of valid (room_ID, from_date, to_date)
 def find_reservation(from_date, duration_min, duration_max):
 
-    room_IDS = [room[0] for room in table_place if room[1] == "Δωμάτιο"];
+    room_IDS = [room[0] for room in table_place if room[1] == "Room"];
 
     def overlaping(from_date, to_date, bookings_for_specific_room):
         for other_from, other_to in bookings_for_specific_room:
@@ -397,12 +397,12 @@ def create_accessed():
 def create_used():
 
     descriptions = [
-            ["Αγορά μπύρας", "Αγορά Cocktail", "Αγορά Αναψυκτικού", "Αγορά κρασιού"],
-            ["Παραγγελία Μακαρόνια με κιμά", "Παραγγελία στιφάδο", "Παραγγελία παστίτσιο", "Παραγγελία πίτσα", "ΣΟYΒΛΑΚΙΑ", "Παραγγελία Αναψυκτικού", "Παραγγελία Ποτού"],
-            ["Χρήση αίθουσας για συνεδρίαση", "Χρήση χώρου για εργασία"],
-            ["Χρήση διαδρόμου", "Χρήση ελλειπτικού", "Χρήση ελεύθερων βαρών"],
-            ["Χρήση σάουνας"],
-            ["Κούρεμα", "Χτένισμα", "Βάψιμο μαλλιών", "Ίσιωμα μαλλιών"]
+            ["Beer", "Cocktail", "Soft drink", "Wine"],
+            ["Spaghetti bolognese", "Stifado", "Pastitsio", "Pizza", "Souvlaki", "Soft drink (restaurant)", "Drink (restaurant)"],
+            ["Meeting", "Workspace"],
+            ["Treadmill", "Elliptical trainer", "Free weights"],
+            ["Sauna session"],
+            ["Haircut", "Hair styling", "Hair colouring", "Hair straightening"]
             ];
 
     reasonalbe_use_count = [5, 5, 2, 2, 1, 2];

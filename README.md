@@ -6,7 +6,7 @@ Built as the semester project for the *Databases* course at the School of Electr
 
 ![Contact-tracing page: the places an infected guest visited, and the guests who may have been exposed](screenshots/contact-tracing.png)
 
-*The COVID-19 contact-tracing page (interface text in Greek). For guest `0000000040`, it lists the place they visited (gym #1, 10:30 to 12:00), and below that, guest `0000000041`, who entered the same gym within the exposure window.*
+*The COVID-19 contact-tracing page. For guest `0000000040`, it lists the place they visited (gym #1, 10:30 to 12:00), and below that, guest `0000000041`, who entered the same gym within the exposure window.*
 
 ## Highlights
 
@@ -43,8 +43,10 @@ Built as the semester project for the *Databases* course at the School of Electr
 | [`interface/`](interface) | PHP web dashboard (W3.CSS) |
 | [`generator/`](generator) | `create_insertions.py` and the name/surname/city lists it samples from |
 | [`diagrams/`](diagrams) | ER and relational diagrams (yEd `.graphml` sources, PDF and PNG) |
-| [`report/`](report) | Project report (Greek) |
+| [`report/`](report) | Project report (in Greek) |
 | [`screenshots/`](screenshots) | Screenshots of the web interface |
+
+The interface and sample data are in English. Comments in the SQL and Python source are still in Greek.
 
 ## Running locally
 
@@ -70,15 +72,15 @@ The sample data comes from the generator: `cd generator && python3 create_insert
 
 ### Dashboard pages
 
-The interface text is in Greek. The pages are:
+The pages are:
 
 | Page | What it shows |
 | --- | --- |
-| Υπηρεσίες (Services) | Search service usage by date range, charge range and service |
-| Πωλήσεις (Sales) | Sales totals per service (`ServiceSales` view) |
-| Πελάτες (Clients) | Guest details with phones, emails and subscriptions (`Client_Info` view) |
-| COVID-19 → Επισκόπηση (Overview) | Busiest places and most-used services by age group, over the last month or year |
-| COVID-19 → Ιχνηλάτηση (Tracing) | Places an infected guest visited, and the guests who may have been exposed |
+| Services | Search service usage by date range, charge range and service |
+| Sales | Sales totals per service (`ServiceSales` view) |
+| Clients | Guest details with phones, emails and subscriptions (`Client_Info` view) |
+| COVID-19 → Overview | Busiest places and most-used services by age group, over the last month or year |
+| COVID-19 → Tracing | Places an infected guest visited, and the guests who may have been exposed |
 
 ## Authors
 

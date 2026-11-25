@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>ASDF DB | Αρχική</title>
+<title>ASDF DB | Home</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,27 +19,27 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="index.php" class="w3-bar-item w3-button w3-padding-large w3-white">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πελάτες</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Clients</a>
     <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-hide-small w3-padding-large w3-hover-white" title="COVID-19">COVID-19</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Επισκόπηση</a>
-      <a href="trace_infection.php" class="w3-bar-item w3-button">Ιχνηλάτηση κρούσματος</a>
+      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Overview</a>
+      <a href="trace_infection.php" class="w3-bar-item w3-button">Contact tracing</a>
     </div>
     </div>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Πελάτες</a>
-    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Επισκόπηση</a>
-    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Ιχνηλάτηση</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Clients</a>
+    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Overview</a>
+    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Tracing</a>
   </div>
 </div>
 

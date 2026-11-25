@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>ASDF DB | Υπηρεσίες</title>
+<title>ASDF DB | Services</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,27 +19,27 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="index.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large w3-white">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πελάτες</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large w3-white">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Clients</a>
     <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-hide-small w3-padding-large w3-hover-white" title="COVID-19">COVID-19</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Επισκόπηση</a>
-      <a href="trace_infection.php" class="w3-bar-item w3-button">Ιχνηλάτηση κρούσματος</a>
+      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Overview</a>
+      <a href="trace_infection.php" class="w3-bar-item w3-button">Contact tracing</a>
     </div>
     </div>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Πελάτες</a>
-    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Επισκόπηση</a>
-    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Ιχνηλάτηση</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Clients</a>
+    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Overview</a>
+    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Tracing</a>
   </div>
 </div>
 
@@ -48,34 +48,34 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
 
     <div class="w3-container w3-red">
-      <h2> Αναζήτηση χρήσεων υπηρεσιών </h2>
+      <h2> Search Service Usage </h2>
     </div>
     <div class="w3-container w3-white w3-padding-16 w3-round">
       <form method="GET">
         <div class="w3-row-padding" style="margin:0 -16px;">
           <div class="w3-half w3-margin-bottom">
-            <label><i class="fa fa-calendar-o"></i> Από</label>
+            <label><i class="fa fa-calendar-o"></i> From</label>
             <input class="w3-input w3-border" type="datetime-local" name="from_time" style="text-align: center">
           </div>
           <div class="w3-half">
-            <label><i class="fa fa-calendar-o"></i> Εώς</label>
+            <label><i class="fa fa-calendar-o"></i> To</label>
             <input class="w3-input w3-border" type="datetime-local" name="to_time" style="text-align: center">
           </div>
         </div>
         <div class="w3-row-padding" style="margin:8px -16px;">
           <div class="w3-half w3-margin-bottom">
-            <label>&euro; Από</label>
+            <label>&euro; From</label>
             <input class="w3-input w3-border" type="text" placeholder="" name="min_cost" style="text-align: center">
           </div>
           <div class="w3-half w3-margin-bottom">
-            <label>&euro; Έως</label>
+            <label>&euro; To</label>
             <input class="w3-input w3-border" type="text" placeholder="" name="max_cost" style="text-align: center">
           </div>
         </div>
 
         <div class="w3-row-padding" style="margin:8px -16px;">
           <div class="w3-half w3-margin-bottom">
-            <label for="services"> Τύπος υπηρεσίας</label>
+            <label for="services"> Service type</label>
             <select class="w3-white w3-select w3-border" name="services" id="services">
 
                 <?php
@@ -85,7 +85,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 
                     $result = $conn->query($sql);
 
-                     echo sprintf("<option value=%s>%s</option>", "", "Όλες");
+                     echo sprintf("<option value=%s>%s</option>", "", "All");
 
                     if (mysqli_num_rows($result) > 0) {
                       while($row = $result->fetch_assoc()) {
@@ -103,7 +103,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
             </div>
          <div class="w3-half w3-margin-bottom">
            <br>
-            <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Αναζήτηση </button>
+            <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Search </button>
           </div>
           </div>
         </div>
@@ -116,13 +116,13 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
     <div class="w3-container">
-    <h5>Υπρεσίες</h5>
+    <h5>Services</h5>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
       <tr>
-        <th> Τύπος υπηρεσίας </th>
-        <th> Κωδικός πελάτη </th>
-        <th> Ώρα χρήσης </th>
-        <th> Κόστος </th>
+        <th> Service type </th>
+        <th> Client ID </th>
+        <th> Time of use </th>
+        <th> Cost </th>
       </tr>
       <?php
 

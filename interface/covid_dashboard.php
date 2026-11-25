@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>ASDF DB | COVID-19 | Επισκόπηση</title>
+<title>ASDF DB | COVID-19 | Overview</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -19,27 +19,27 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="index.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Πελάτες</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Clients</a>
     <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large w3-white" title="COVID-19">COVID-19</button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Επισκόπηση</a>
-      <a href="trace_infection.php" class="w3-bar-item w3-button">Ιχνηλάτηση κρούσματος</a>
+      <a href="covid_dashboard.php" class="w3-bar-item w3-button">Overview</a>
+      <a href="trace_infection.php" class="w3-bar-item w3-button">Contact tracing</a>
     </div>
     </div>
   </div>
 
   <!-- Navbar on small screens -->
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
-    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Αρχική</a>
-    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Υπηρεσίες</a>
-    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Πωλήσεις</a>
-    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Πελάτες</a>
-    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Επισκόπηση</a>
-    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Ιχνηλάτηση</a>
+    <a href="index.php" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="service_overview.php" class="w3-bar-item w3-button w3-padding-large">Services</a>
+    <a href="sales_overview.php" class="w3-bar-item w3-button w3-padding-large">Sales</a>
+    <a href="clients_overview.php" class="w3-bar-item w3-button w3-padding-large">Clients</a>
+    <a href="covid_dashboard.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Overview</a>
+    <a href="trace_infection.php" class="w3-bar-item w3-button w3-padding-large">COVID-19 | Tracing</a>
   </div>
 </div>
 
@@ -47,14 +47,14 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <header class="w3-container w3-red w3-center" style="padding:82px 128px">
 
     <div class="w3-container w3-red">
-      <h2>Επιλογή Ηλικιακής Ομάδας Και Χρονικού Διαστήματος Προς Επισκόπηση</h2>
+      <h2>Select Age Group and Time Period</h2>
     </div>
 
     <div class="w3-container w3-white w3-padding-16 w3-round">
       <form action="covid_dashboard.php" method="get">
         <div class="w3-row-padding w3-margin-bottom">
           <div class="w3-half">
-            <label for="age_group"> Ηλικιακή Ομάδα </label>
+            <label for="age_group"> Age group </label>
             <select class="w3-white w3-select w3-border" name="age_group" id="age_group">
               <?php
               if($_GET and ($_GET['age_group'] != "20-40")){
@@ -69,20 +69,20 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
               ?>
             </select>
 
-            <label for="timeframe"> Χρονικό Διάστημα</label>
+            <label for="timeframe"> Time period</label>
             <select class="w3-white w3-select w3-border" name="timeframe" id="timeframe">
               <?php
               if ($_GET and ($_GET['timeframe'] != "last_month")) {
-                echo "<option value=\"last_year\">Τον τελευαίο χρόνο</option> <option value=\"last_month\">Τον τελευταίο μήνα</option> ";
+                echo "<option value=\"last_year\">Last year</option> <option value=\"last_month\">Last month</option> ";
               } else {
-                echo "<option value=\"last_month\">Τον τελευταίο μήνα</option> <option value=\"last_year\">Τον τελευαίο χρόνο</option>";
+                echo "<option value=\"last_month\">Last month</option> <option value=\"last_year\">Last year</option>";
               }
                ?>
             </select>
           </div>
           <div class="w3-half">
               <br> <br>
-              <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Επισκόπηση </button>
+              <button class="w3-button w3-dark-grey" type="submit"><i class="fa fa-search w3-margin-right"></i> Show </button>
           </div>
         </div>
       </form>
@@ -94,11 +94,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- First Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
     <div class="w3-content">
-      <h5> Πιο πολυσύχναστοι χώροι</h5>
+      <h5> Busiest places</h5>
       <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
         <tr>
-          <th> Χώρος </th>
-          <th> Πλήθος επισκέψεων </th>
+          <th> Place </th>
+          <th> Visits </th>
         </tr>
       <?php
       if($_GET){
@@ -157,11 +157,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Second Grid -->
 <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
   <div class="w3-content">
-    <h5> Συχνότερα χρησιμοποιούμενες υπηρεσίες</h5>
+    <h5> Most frequently used services</h5>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
       <tr>
-        <th> Υπηρεσία </th>
-        <th> Πλήθος χρήσεων </th>
+        <th> Service </th>
+        <th> Uses </th>
       </tr>
     <?php
     if($_GET){
@@ -217,11 +217,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <!-- Third Grid -->
 <div class="w3-row-padding w3-padding-64 w3-container">
   <div class="w3-content">
-    <h5> Υπηρεσίες που χρησιμοποιούνται από τους περισσότερους πελάτες </h5>
+    <h5> Services used by the most clients </h5>
     <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white w3-centered">
       <tr>
-        <th> Υπηρεσία </th>
-        <th> Πλήθος διαφορετικών πελατών </th>
+        <th> Service </th>
+        <th> Distinct clients </th>
       </tr>
     <?php
     if($_GET){

@@ -274,7 +274,7 @@ END FOR;
 
 INSERT INTO Has_Access (bracelet_UID, place_ID, from_timestamp)
 (SELECT NEW.bracelet_UID, ID, NEW.arrival_timestamp from Place
-where name = 'Χώρος υποδοχής' OR name = 'Ανελκυστήρες'); -- Προσθέτουμε Has_Access για για τον Χώρος υποδοχής και τους Ανελκυστήρες
+where name = 'Reception' OR name = 'Elevators'); -- Προσθέτουμε Has_Access για για τον Χώρος υποδοχής και τους Ανελκυστήρες
 
 END; //
 DELIMITER ;
