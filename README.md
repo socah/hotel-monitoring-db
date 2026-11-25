@@ -4,6 +4,10 @@ A relational database and web dashboard for "ASDF Palace", a fictional hotel res
 
 Built as the semester project for the *Databases* course at the School of Electrical & Computer Engineering, National Technical University of Athens (NTUA), spring 2021.
 
+![Contact-tracing page: the places an infected guest visited, and the guests who may have been exposed](screenshots/contact-tracing.png)
+
+*The COVID-19 contact-tracing page (interface text in Greek). For guest `0000000040`, it lists the place they visited (gym #1, 10:30 to 12:00), and below that, guest `0000000041`, who entered the same gym within the exposure window.*
+
 ## Highlights
 
 - **Normalized schema** (MariaDB/MySQL) with ISA hierarchies (Place → Room / NotRoom, Service → with / without subscription), multivalued attributes (phones, emails), `CHECK` constraints (ID documents, phone and email formats) and a generated `age` column.
@@ -40,6 +44,7 @@ Built as the semester project for the *Databases* course at the School of Electr
 | [`generator/`](generator) | `create_insertions.py` and the name/surname/city lists it samples from |
 | [`diagrams/`](diagrams) | ER and relational diagrams (yEd `.graphml` sources, PDF and PNG) |
 | [`report/`](report) | Project report (Greek) |
+| [`screenshots/`](screenshots) | Screenshots of the web interface |
 
 ## Running locally
 
@@ -59,7 +64,9 @@ Built as the semester project for the *Databases* course at the School of Electr
    ```
    and open <http://localhost:8000>.
 
-The sample data comes from the generator: `cd generator && python3 create_insertions.py` prints a complete random dataset to stdout. Timestamps are relative to the current date, so each run gives different arrival and usage times. The committed files split one such run: places and services are in `initial_insertions.sql`, and guests, bookings and logs are in `test_insertions.sql`, followed by hand-written rows for the contact-tracing demo.
+The sample data comes from the generator: `cd generator && python3 create_insertions.py` prints a complete random dataset to stdout. It uses a fixed random seed, and guest arrivals fall between February and May 2021. The committed files split one run of an earlier version of the script: places and services are in `initial_insertions.sql`, and guests, bookings and logs are in `test_insertions.sql`, followed by hand-written rows for the contact-tracing demo.
+
+> **Note:** the COVID-19 overview page counts activity in the last month or year before today. Since the sample data is from 2021, its tables will be empty unless you generate data with recent dates.
 
 ### Dashboard pages
 
